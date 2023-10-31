@@ -11,10 +11,10 @@
   "author": "Pavel Voronin",
   "license": "ISC",
   "dependencies": {
-    "@bull-board/express": "4.10.1",
-    "bullmq": "^3.5.5",
-    "commander": "^9.4.1",
-    "express": "^4.18.1"
-  },
-  "repository": "github:pavel-voronin/bullmq-dashboard-runnable"
+    "@bull-board/api": "^5.9.1",
+    "@bull-board/express": "5.9.1",
+    "bullmq": "^4.12.7",
+    "commander": "^11.1.0",
+    "express": "^4.18.2"
+  }
 }
