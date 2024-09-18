@@ -25,18 +25,24 @@ program
   .option("--redis-host <host>", "Redis host", "localhost")
   .option("--redis-password <password>", "Redis password", undefined)
   .option("--prefix <prefix>", "BullMQ prefix", undefined)
+  .option("--use-tls", "Use TLS when connecting", false)
   .argument("<names>", "comma separated queue names", split)
   .action((names, opts) => {
     const redisOptions = {
       port: opts.redisPort,
       host: opts.redisHost,
       password: opts.redisPassword,
+      ...(opts.useTls && {
+        tls: {},
+      }),
     };
 
     const run = async () => {
       const queues = names.map(
         (name) =>
-          new BullMQAdapter(new Queue(name, { ...(opts.prefix ? {prefix: opts.prefix}: {}),  connection: redisOptions }))
+          new BullMQAdapter(
+            new Queue(name, { ...(opts.prefix ? { prefix: opts.prefix } : {}), connection: redisOptions })
+          )
       );
 
       const app = express();
