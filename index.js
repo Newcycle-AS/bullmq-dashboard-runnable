@@ -23,6 +23,7 @@ program
   .option("-P, --port <port>", "Port to run UI", myParseInt, 3000)
   .option("--redis-port <port>", "Redis port", myParseInt, 6379)
   .option("--redis-host <host>", "Redis host", "localhost")
+  .option("--redis-username <username>", "Redis username", undefined)
   .option("--redis-password <password>", "Redis password", undefined)
   .option("--prefix <prefix>", "BullMQ prefix", undefined)
   .option("--use-tls", "Use TLS when connecting", false)
@@ -31,6 +32,7 @@ program
     const redisOptions = {
       port: opts.redisPort,
       host: opts.redisHost,
+      username: opts.redisUsername,
       password: opts.redisPassword,
       ...(opts.useTls && {
         tls: {},
@@ -41,7 +43,10 @@ program
       const queues = names.map(
         (name) =>
           new BullMQAdapter(
-            new Queue(name, { ...(opts.prefix ? { prefix: opts.prefix } : {}), connection: redisOptions })
+            new Queue(name, {
+              ...(opts.prefix ? { prefix: opts.prefix } : {}),
+              connection: redisOptions,
+            })
           )
       );
 
